@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if es_carrito %}
+    <h3 class="title"> Carrito </h3>
+    {% else %}
+    <h3 class="title"> Pedido </h3>
+    {% endif %}
+    <div class="block">
+        <h5 class="subtitle"> Información General </h5>
+        <div class="content">
+            <ul>
+              <li> <strong>Cliente:</strong> {{ object.cliente.user_profile.user.get_username }}</li>
+              <li> <strong>Fecha Creación:</strong> {{ object.fecha_creacion }}</li>
+              <li> <strong>Estado:</strong> {{ object.estado }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="block">
+        <h5 class="subtitle"> Detalle </h5>
+        <div class="content">
+            <ul>
+              <!-- Agrega cada detalle del pedido -->
+              {% for detalle in detalles %}
+                <li>
+                  {{ detalle }}
+                  {% if es_carrito %}
+                  <a href="{% url 'add-to-cart' product_pk=detalle.producto.pk %}" class="button is-success">
+                    +
+                  </a>
+                  <a href="{% url 'remove-from-cart' product_pk=detalle.producto.pk %}" class="button is-danger">
+                    -
+                  </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+   {% if es_carrito %}
+    <a href="{% url 'pedido-update' pk=object.pk %}" class='button is-info'>
+      Checkout
+    </a>
+   {% else %}
+   <div class="container">
+     <h5 class="subtitle">Comuniquese con el colaborador</h5>
+     <div class="row">
+        {% for comment in comments %}
+       <div class="col-md-8 card mb-4  mt-3 ">
+         <div class="card-body">
+           <div class="comments" style="padding: 10px;">
+             <p class="font-weight-bold">
+               {{ comment.usuario }}
+               <span class=" text-muted font-weight-normal">
+                 {{ comment.created_on }}
+               </span>
+             </p>
+             {{ comment.body | linebreaks }}
+           </div>
+         </div>
+       </div>
+       {% endfor %}
+     </div>
+   </div>
+   <a href="{% url 'registrar-comentario' pedido_pk=object.pk %}" class='button is-info'>
+     Registrar comentario
+   </a>
+   {% endif %}
+    <hr>
+{% endblock %}

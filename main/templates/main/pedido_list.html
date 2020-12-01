@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="title"> Pedidos </h3>
+    <div class="columns is-multiline">
+           <!-- Lista de productos -->
+          {% for pedido in object_list %}
+          <div class="column is-4">
+                <div class="card">
+                    <div class="card-content">
+                       {% if pedido.repartidor == colaborador %}
+                       <h5 class="subtitle">Entregar</h5>
+                       <p>Cliente: {{ pedido.cliente }}</p>
+                       {% else %}
+                          {% if pedido.estado == "PAG" %}
+                          <h5 class="subtitle">Por entregar</h5>
+                          {% else %}
+                          <h5 class="subtitle">Entregado</h5>
+                          {% endif %}
+                       <p>Repartidor: {{ pedido.repartidor }}</p>
+                        {% endif %}
+                        <p>Ubicacion: {{ pedido.ubicacion }}</p>
+                        <p>Fecha creacion: {{ pedido.fecha_creacion }}</p>
+                        <p>Direccion: {{ pedido.direccion_entrega }}</p>
+                        <p>Tarifa: {{ pedido.tarifa }}</p>
+                        <p>Comprobante: {{ pedido.comprobante }}</p>
+                        <p>Total costo: {{ pedido.get_total }}</p>
+                      {% if pedido.estado != "ENT" %}
+                       {% if pedido.repartidor == colaborador %}
+                       <div class="content">
+                             <a href="{% url 'pedido-delivered' pedido_pk=pedido.pk %}" class='button'
+                             style="background-color:#242647;color:#FFFFFF;border-color:#242647;margin-top:5px">
+                             Pedido entregado
+                          </a>
+                       </div>
+                       {% else %}
+                        <div class="content">
+                              <a href="{% url 'paid-pedido-detail' pedido_pk=pedido.pk %}" class='button'
+                              style="background-color:#242647;color:#FFFFFF;border-color:#242647;margin-top:5px">
+                              Ver detalle del pedido
+                           </a>
+                        </div>
+                        {% if pedido.puede_cancelar %}
+                        <div class="content">
+                              <a href="{% url 'cancelar-pedido' pedido_pk=pedido.pk %}" class='button'
+                              style="background-color:#b50b3b;color:#FFFFFF;border-color:#b50b3b;margin-top:5px">
+                              Cancelar pedido
+                           </a>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                       {% endif %}
+                    </div>
+                </div>
+            </div>
+          {% empty %}
+              <div class="content">
+                <h6>Aun no hay pedidos disponibles.</h6>
+              </div>
+          {% endfor %}
+    </div>
+    <hr>
+{% endblock %}

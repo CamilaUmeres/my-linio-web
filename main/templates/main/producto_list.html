@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="title"> Productos </h3>
+    <form action="{% url 'product-list' %}" method="get">
+      <label>Buscar por categoria:</label>
+       <input type="hidden" name="q" value="buscar_por_categoria">
+       <select name="categoria" id="categoria" style="margin-bottom:24px">
+           {% for categoria in categoria_list %}
+           {% if categoria.nombre == categoria_selected %}
+           <option value="{{ categoria.nombre }}" selected>{{ categoria.nombre }}</option>
+           {% else %}
+           <option value="{{ categoria.nombre }}">{{ categoria.nombre }}</option>
+           {% endif %}
+           {% endfor %}
+      </select>
+       <input type="submit" name="featured" value="Filter" />
+   </form>
+    <div class="columns is-multiline">
+           <!-- Lista de productos -->
+          {% for producto in object_list %}
+          <div class="column is-4">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="{{ producto.images.first.image.url|default:'https://via.placeholder.com/128' }}" alt="Imagen no disponible">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <h6>
+                            <a href="{% url 'product-detail' producto.pk %}">
+                                {{ producto.nombre }}
+                            </a>
+                        </h6>
+                        <p>$ {{ producto.precio }}</p>
+                    </div>
+                </div>
+            </div>
+          {% empty %}
+              <div class="content">
+                <h6>Aun no hay productos disponibles.</h6>
+              </div>
+          {% endfor %}
+    </div>
+    <hr>
+{% endblock %}

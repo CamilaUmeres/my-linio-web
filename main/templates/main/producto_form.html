@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+   <link rel="stylesheet" type="text/css" href="{% static '/register.css' %}">
+    <h3 class="title"> Actualiza producto </h3>
+
+    <div class="block">
+        <h5 class="subtitle"> Ingresa nuevos datos </h5>
+          <!-- Muestra el formulario de actualizar producto -->
+         <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Submit" class="button is-info">
+        </form>
+    </div>
+
+    <hr>
+
+{% endblock %}

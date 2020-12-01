@@ -1,0 +1,50 @@
+<!-- Banner de la pagina, se importa en el resto de los htmls -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+    <title> LinioExp </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static '/menu.css' %}">
+  </head>
+  <body>
+  <section class="section">
+     <nav role="navigation" style="float:left">
+        <div id="menuToggle">
+           <input type="checkbox" />
+           <span></span>
+           <span></span>
+           <span></span>
+           <ul id="menu">
+             <a href="/"><li>Inicio</li></a>
+             <a href="/productos"><li>Lista productos</li></a>
+             <a href="/carrito"><li>Ver carrito de compras</li></a>
+             {% if user.is_authenticated %}
+             <a href="/accounts/logout"><li>Cerrar sesión</li></a>
+             {% endif %}
+          </ul>
+       </div>
+    </nav>
+     <h1 class="title is-1" style="background-color:#1f252e;color:#ffffff;padding-top: 20px;padding-left: 125px;padding-bottom: 20px;padding-right: 40px;"
+     > <img src="/media/logo-linio.png" width="70px" height="70px">INIO <div style="font-size:70px;display:inline-block;">E</div>xpress </h1>
+    <div class="container">
+      <hr>
+      <div class="content">
+          <form action="{% url 'product-list' %}" method="get">
+              <input class="input is-rounded" type="text" name="q" placeholder="Busca tu producto...">
+          </form>
+      </div>
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div style="background-color:#1f252e;color:#ffffff;padding-top: 20px;padding-left: 40px;padding-bottom: 50px;padding-right: 40px;margin-top:180px">
+      <footer style="float:right;">
+         <p style="font-weight:bold">Linio - 2020</p>
+      </footer>
+   </div>
+  </section>
+  </body>
+</html>

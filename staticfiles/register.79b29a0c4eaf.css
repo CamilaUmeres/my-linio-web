@@ -1,0 +1,42 @@
+input
+{
+   padding-left: 5px;
+   padding-right: 10px;
+   padding-top: 15px;
+   padding-bottom: 15px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-left: 20px;
+   font-size:20px;
+}
+
+label{
+   font-size: 22px;
+}
+
+select{
+   font-size: 14px;
+   padding-left: 5px;
+   padding-right: 10px;
+   padding-top: 15px;
+   padding-bottom: 15px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-left: 20px;
+}
+
+input[type=checkbox] {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #FF8300;
+  padding: 1px;
+  height: 20px;
+  width: 20px;
+}
+
+input[type=checkbox]:checked {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M14 18L26 6l4 4-16 16L4 16l4-4z"/></svg>');
+  background-size: 100%;
+}

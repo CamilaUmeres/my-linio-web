@@ -1,0 +1,104 @@
+<!-- Importa el banner que esta en base.html-->
+{% extends "base.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <!-- Empieza la vista home-->
+    <p>
+      <a href="{% url 'logout' %}" style="float:right;background-color:#1f252e;color:#FFFFFF;padding:6px;border-radius:4px">Cierra Sesion</a>
+   </p>
+    <h3 class="title"> Hola {{ user.get_username }} </h3>
+    {% else %}
+    <h3 class="title"> Hola </h3>
+    <div class="content">
+        <p>
+          <div>
+             <a href="{% url 'login' %}" class='button' style="background-color:#242647;color:#FFFFFF;border-color:#242647">Inicia Sesion</a>
+         </div>
+         <br>
+         <div>
+          <a href="{% url 'register' %}" class='button' style="background-color:#242647;color:#FFFFFF;border-color:#242647">Registrate</a>
+          </div>
+        </p>
+    </div>
+    {% endif %}
+
+
+    <!-- Muestra mensajes si existen-->
+    {% if messages %}
+        {% for message in messages %}
+        <div class="notification {% if message.tags %}is-{{ message.tags }}{% endif %}">
+            <button class="delete"></button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <hr>
+    <div class="row">
+      <div class="column" style="float:left;width:50%">
+          <h5 class="subtitle"> Ultimos productos </h5>
+          <div class="content">
+              <ul>
+                 <!-- Carga los ultimos productos-->
+                {% for producto in latest_products %}
+                  <li  style="line-height: 1.8;">
+                    <a href="{% url 'product-detail' producto.pk %}">
+                      {{ producto.nombre }}
+                    </a>
+                    - {{ producto.precio }}
+                  </li>
+                {% empty %}
+                  <li>Aun no hay productos disponibles.</li>
+                {% endfor %}
+              </ul>
+          </div>
+      </div>
+      <div class="column" style="float:left">
+        {% if user.is_authenticated %}
+         <div class="content">
+             <a href="{% url 'pedido-detail' %}" class='button'
+             style="background-color:#FF8300;color:#FFFFFF;border-color:#FF8300;font-weight:bold">
+               Ver carrito
+             </a>
+         </div>
+        {% endif %}
+         {% if puede_registrar_comercio %}
+          <div class="content">
+              <a href="{% url 'registar-comercio' %}" class='button'
+              style="background-color:#242647;color:#FFFFFF;border-color:#242647">
+                Registrar comercio
+              </a>
+          </div>
+         {% endif %}
+          {% if puede_registrar_producto %}
+           <div class="content">
+               <a href="{% url 'registar-producto' %}" class='button'
+               style="background-color:#242647;color:#FFFFFF;border-color:#242647">
+                 Registrar producto
+               </a>
+           </div>
+          {% endif %}
+           {% if tiene_pedido %}
+            <div class="content">
+                <a href="{% url 'pedido-list' %}" class='button'
+                style="background-color:#242647;color:#FFFFFF;border-color:#242647">
+                  Ver pedido
+                </a>
+            </div>
+           {% endif %}
+           {% if tiene_por_entregar %}
+            <div class="content">
+                <a href="{% url 'pedido-list' %}" class='button'
+                style="background-color:#242647;color:#FFFFFF;border-color:#242647">
+                  Ver pedidos pendiente de entrega
+                </a>
+            </div>
+           {% endif %}
+         <div class="content">
+            <a href="{% url 'product-list' %}" style="background-color:#242647;color:#FFFFFF;padding:12px;border-radius:7px">Ver Lista de Productos Completa</a>
+         </div>
+      </div>
+    </div>
+    <hr style="margin-top:300px">
+{% endblock %}

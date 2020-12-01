@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="title"> {{ object.nombre }} </h3>
+    <div class="columns">
+       <!-- Muestra las imagenes para los productos -->
+        {% for image in object.images.all %}
+        <div class="column is-3">
+            <figure class="image is-square">
+                <a href="{{ image.image.url }}">
+                    <img src="{{ image.image.url }}" alt="No hay imagen disponible">
+                </a>
+            </figure>
+        </div>
+        {% empty %}
+        <div class="column content">
+            <p>Aún no hay imágenes disponibles</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="content">
+        <ul>
+          <li><strong>Precio:</strong> $ {{ object.precio }}</li>
+          <li><strong>Descripcion:</strong> {{ object.descripcion }}</li>
+          <li><strong>Categoria:</strong> {{ object.categoria.nombre }}</li>
+          <li><strong>Proveedor:</strong> {{ object.proveedor }}</li>
+        </ul>
+    </div>
+    <div class="block">
+        <a href="{% url 'add-to-cart' product_pk=object.pk %}" class='button is-primary'>
+          Añadir al carrito
+        </a>
+        <a href="{% url 'pedido-detail' %}" class='button'>
+          Ver carrito
+        </a>
+        {% if puede_editar_producto %}
+           <a href="{% url 'editar-producto' pk=object.pk %}" class='button'>
+             Editar producto
+           </a>
+        {% endif %}
+    </div>
+    <hr>
+{% endblock %}
